@@ -138,39 +138,42 @@ def PlayerHandler(player):
 
 def TCPFunc(tcp):
     while True:
-        player = Player()
-        player.socket, tmp = tcp.accept()
-        data = player.socket.recv(1024).decode()
-        recvJson = json.loads(data)
-        player.nick = recvJson["nick"] # add mode control
-        
-        nickError = False
-        for plyr in players: # nick control
-            if plyr.nick == player.nick:
-                nickError = True
-        
-        if nickError:
-            sendJson = {
-                "code": "1"
-            }
-            sendStr = json.dumps(sendJson)
-            player.socket.sendall(sendStr.encode())
-            continue
-        else:
-            SpawnPlayer(player)
-            sendJson = {
-                "code": "0",
-                "map": "Walls",
-                "x": player.x,
-                "y": player.y,
-                "z": player.z
-            }
-            sendStr = json.dumps(sendJson)
-            player.socket.sendall(sendStr.encode())
-            players.append(player)
-            print("Player connected:", player.nick, ":", len(players))
-            playerThread = threading.Thread(target=PlayerHandler, args={player})
-            playerThread.start()
+        try:
+            player = Player()
+            player.socket, tmp = tcp.accept()
+            data = player.socket.recv(1024).decode()
+            recvJson = json.loads(data)
+            player.nick = recvJson["nick"] # add mode control
+            
+            nickError = False
+            for plyr in players: # nick control
+                if plyr.nick == player.nick:
+                    nickError = True
+            
+            if nickError:
+                sendJson = {
+                    "code": "1"
+                }
+                sendStr = json.dumps(sendJson)
+                player.socket.sendall(sendStr.encode())
+                continue
+            else:
+                SpawnPlayer(player)
+                sendJson = {
+                    "code": "0",
+                    "map": "Walls",
+                    "x": player.x,
+                    "y": player.y,
+                    "z": player.z
+                }
+                sendStr = json.dumps(sendJson)
+                player.socket.sendall(sendStr.encode())
+                players.append(player)
+                print("Player connected:", player.nick, ":", len(players))
+                playerThread = threading.Thread(target=PlayerHandler, args={player})
+                playerThread.start()
+        except Exception as e:
+            print(f"Hata oluştu{e}")
 
 def StartUDP():
     UDPServ = socketserver.UDPServer((ip, 3000), UDPHandler)
