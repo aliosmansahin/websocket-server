@@ -6,6 +6,9 @@ import json
 import time
 import math
 import random
+import os
+
+PORT = int(os.getenv("PORT", 3000))
 
 class Player:
     socket = 0
@@ -176,12 +179,12 @@ def TCPFunc(tcp):
             print(f"Hata oluştu{e}")
 
 def StartUDP():
-    UDPServ = socketserver.UDPServer((ip, 10000), UDPHandler)
+    UDPServ = socketserver.UDPServer((ip, PORT), UDPHandler)
     UDPServ.serve_forever()
 
 def StartTCP():
     tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpSocket.bind((ip, 10000))
+    tcpSocket.bind((ip, PORT))
     tcpSocket.listen()
     TCPThread = threading.Thread(target=TCPFunc, args={tcpSocket})
     TCPThread.start()
@@ -217,7 +220,7 @@ ip = s.getsockname()[0]
 s.shutdown(2)
 s.close()
 
-print("Server starting on", ip)
+print("Server starting on", ip, ":", PORT)
 
 StartTCP()
 
