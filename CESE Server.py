@@ -176,12 +176,12 @@ def TCPFunc(tcp):
             print(f"Hata oluştu{e}")
 
 def StartUDP():
-    UDPServ = socketserver.UDPServer((ip, 3000), UDPHandler)
+    UDPServ = socketserver.UDPServer((ip, 10000), UDPHandler)
     UDPServ.serve_forever()
 
 def StartTCP():
     tcpSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpSocket.bind((ip, 3000))
+    tcpSocket.bind((ip, 10000))
     tcpSocket.listen()
     TCPThread = threading.Thread(target=TCPFunc, args={tcpSocket})
     TCPThread.start()
