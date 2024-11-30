@@ -19,9 +19,13 @@ async def echo(websocket):
 
 
 async def StartServer():
-    server = await websockets.serve(echo, ip, PORT)
-    print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde çalışıyor...")
-    await server.wait_closed()
+    try:
+        server = await websockets.serve(echo, ip, PORT)
+        print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde çalışıyor...")
+        await server.wait_closed()
+    except websockets.exceptions.WebSocketException:
+        print(f"websocket hatası")
+
 
 print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde başlatılıyor...")
 if __name__ == "__main__":
