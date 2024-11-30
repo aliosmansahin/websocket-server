@@ -23,5 +23,6 @@ async def StartServer():
     print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde çalışıyor...")
     await server.wait_closed()
 
+print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde başlatılıyor...")
 if __name__ == "__main__":
     asyncio.run(StartServer())
