@@ -5,7 +5,7 @@ import signal
 from websockets.asyncio.server import serve
 
 
-async def echo(websocket):
+async def echo(websocket, path):
     async for message in websocket:
         await websocket.send(message)
 
