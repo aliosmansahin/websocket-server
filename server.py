@@ -31,7 +31,7 @@ async def main():
 
         async with websockets.serve(echo, "", PORT, process_request=health_check):
             print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde çalışıyor...")
-            await stop()
+            await stop
     except websockets.exceptions.WebSocketException:
         print(f"websocket hatası")
 
