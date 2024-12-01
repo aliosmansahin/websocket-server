@@ -27,6 +27,5 @@ async def StartServer():
         print(f"websocket hatası")
 
 
-if __name__ == "__main__":
-    print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde başlatılıyor...")
-    asyncio.run(StartServer())
+print(f"Python WebSocket Sunucusu {ip}:{PORT} adresinde başlatılıyor...")
+asyncio.run(StartServer())
